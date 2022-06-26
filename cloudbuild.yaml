@@ -18,7 +18,7 @@ steps:
     args:
       - prepare
       - '--filename=$_K8S_YAML_PATH'
-      - '--image=$_IMAGE_NAME:$COMMIT_SHA'
+      - '--image=$_IMAGE_NAME-$BRANCH_NAME:$COMMIT_SHA'
       - '--app=$_K8S_APP_NAME'
       - '--version=$COMMIT_SHA'
       - '--namespace=$BRANCH_NAME'
@@ -50,7 +50,7 @@ steps:
       - '--namespace=$BRANCH_NAME'
     id: Apply deploy
 images:
-  - '$_IMAGE_NAME:$COMMIT_SHA'
+  - '$_IMAGE_NAME-$BRANCH_NAME:$COMMIT_SHA'
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
