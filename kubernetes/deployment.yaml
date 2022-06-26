@@ -1,16 +1,10 @@
 ---
-apiVersion: "v1"
-kind: "Namespace"
-metadata:
-  name: dev
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: php
   name: php
-  namespace: dev
 spec:
   selector:
     matchLabels:
@@ -23,7 +17,7 @@ spec:
     spec:
       containers:
       - name: php
-        image: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3:latest
+        image: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3-dev:latest
         ports:
         - containerPort: 80
 ---
@@ -33,7 +27,6 @@ metadata:
   labels:
     app: php
   name: php-hpa
-  namespace: dev
 spec:
   maxReplicas: 5
   metrics:
@@ -53,7 +46,6 @@ metadata:
   name: php
   labels:
     app: php
-  namespace: dev
 spec:
   type: LoadBalancer
   ports:
