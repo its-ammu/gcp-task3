@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   labels:
     app: php
-  name: php
+  name: php-dev
 spec:
   selector:
     matchLabels:
@@ -43,7 +43,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: php
+  name: php-dev
   labels:
     app: php
 spec:
