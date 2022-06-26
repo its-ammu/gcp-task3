@@ -20,7 +20,7 @@ spec:
         image: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3-dev:latest
         ports:
         - containerPort: 80
-      resources:
+        resources:
           limits:
             cpu: 500m
           requests:
