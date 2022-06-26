@@ -1,0 +1,71 @@
+---
+apiVersion: "v1"
+kind: "Namespace"
+metadata:
+  name: "dev"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: php
+  name: php
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: php
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: php
+    spec:
+      containers:
+        - image: gcr.io/bamboo-strata-354108/github_its-ammu_gcp-task3
+          imagePullPolicy: IfNotPresent
+          name: gcp-task3-1
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: php
+  name: php-hpa
+  namespace: dev
+spec:
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php
+  labels:
+    app: php
+  namespace: dev
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: php
+
+
