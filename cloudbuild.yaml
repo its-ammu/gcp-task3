@@ -37,7 +37,6 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _GKE_CLUSTER: cluster-av
-  _K8S_NAMESPACE: dev
   _K8S_APP_NAME: php
   _IMAGE_NAME: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3
   _DOCKERFILE_NAME: Dockerfile
