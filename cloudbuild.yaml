@@ -22,25 +22,7 @@ steps:
       - '--app=$_K8S_APP_NAME'
       - '--version=$COMMIT_SHA'
       - '--namespace=$BRANCH_NAME'
-      - '--label=$_K8S_LABELS'
-      - '--annotation=$_K8S_ANNOTATIONS,gcb-build-id=$BUILD_ID'
-      - '--create-application-cr'
-      - >-
-        --links="Build
-        details=https://console.cloud.google.com/cloud-build/builds/$BUILD_ID?project=$PROJECT_ID"
-      - '--output=output'
     id: Prepare deploy
-  - name: gcr.io/cloud-builders/gsutil
-    args:
-      - '-c'
-      - |-
-        if [ "$_OUTPUT_BUCKET_PATH" != "" ]
-        then
-          gsutil cp -r output/suggested gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/suggested
-          gsutil cp -r output/expanded gs://$_OUTPUT_BUCKET_PATH/config/$_K8S_APP_NAME/$BUILD_ID/expanded
-        fi
-    id: Save configs
-    entrypoint: sh
   - name: gcr.io/cloud-builders/gke-deploy
     args:
       - apply
@@ -55,15 +37,11 @@ options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
   _GKE_CLUSTER: cluster-av
-  _OUTPUT_BUCKET_PATH: bamboo-strata-354108_cloudbuild/deploy
-  _K8S_NAMESPACE: dev
   _K8S_APP_NAME: php
-  _K8S_ANNOTATIONS: gcb-trigger-id=8e260826-1256-401a-b6a4-a060d27075c2
   _IMAGE_NAME: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3
   _DOCKERFILE_NAME: Dockerfile
   _DOCKERFILE_DIR: ''
   _K8S_YAML_PATH: kubernetes/
-  _K8S_LABELS: ''
   _GKE_LOCATION: us-central1-c
 tags:
   - gcp-cloud-build-deploy
