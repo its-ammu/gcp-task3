@@ -31,6 +31,8 @@ steps:
       - '--location=$_GKE_LOCATION'
       - '--namespace=$BRANCH_NAME'
     id: Apply deploy
+images:
+  - '$_IMAGE_NAME-$BRANCH_NAME:$COMMIT_SHA'
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
