@@ -20,6 +20,11 @@ spec:
         image: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3-dev:latest
         ports:
         - containerPort: 80
+      resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
