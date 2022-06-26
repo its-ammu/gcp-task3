@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: php
+  name: php-prod
+spec:
+  selector:
+    matchLabels:
+      app: php
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: php
+    spec:
+      containers:
+      - name: php
+        image: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3-prod:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: php
+  name: php-hpa-prod
+spec:
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-prod
+  labels:
+    app: php
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: php
+
+
