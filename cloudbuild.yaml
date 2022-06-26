@@ -23,8 +23,6 @@ steps:
     - --cluster=$_GKE_CLUSTER
     - --namespace=$BRANCH_NAME
     id: Deploy
-images:
-  - '$_IMAGE_NAME-$BRANCH_NAME:$COMMIT_SHA'
 options:
   substitutionOption: ALLOW_LOOSE
 substitutions:
