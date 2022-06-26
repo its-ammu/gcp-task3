@@ -43,7 +43,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: php
+    name: php-prod
 ---
 apiVersion: v1
 kind: Service
