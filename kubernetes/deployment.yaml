@@ -12,24 +12,20 @@ metadata:
   name: php
   namespace: dev
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: php
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+  replicas: 2
   template:
     metadata:
       labels:
         app: php
     spec:
       containers:
-        - image: gcr.io/bamboo-strata-354108/github_its-ammu_gcp-task3
-          imagePullPolicy: IfNotPresent
-          name: gcp-task3-1
+      - name: php
+        image: gcr.io/bamboo-strata-354108/github.com/its-ammu/gcp-task3:latest
+        ports:
+        - containerPort: 80
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
